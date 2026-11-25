@@ -84,11 +84,13 @@ async function callAnthropic(user: string): Promise<string> {
       'content-type': 'application/json',
       'x-api-key': process.env.ANTHROPIC_API_KEY!,
       'anthropic-version': '2023-06-01',
+      // Workspace'e bağlı olmayan anahtarlar için gerekli
+      ...(process.env.ANTHROPIC_WORKSPACE_ID ? { 'anthropic-workspace-id': process.env.ANTHROPIC_WORKSPACE_ID } : {}),
     },
     body: JSON.stringify({
       model: process.env.LLM_MODEL ?? 'claude-sonnet-5-5',
       max_tokens: 400,
-      temperature: 0,
+      // Güncel Claude modelleri `temperature` parametresini kabul etmiyor (400 döner)
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: user }],
     }),
