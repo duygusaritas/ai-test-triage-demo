@@ -1,0 +1,14 @@
+{
+  "_aciklama": "Her bozuk testin GERÇEK kategorisi. evaluate.ts AI tahminlerini bununla karşılaştırır.",
+  "bike light sepete eklenebilir": "TEST_BUG",
+  "iki ürün eklenince sepet rozeti 2 olur": "TEST_BUG",
+  "checkout kullanıcısı giriş yapabilir": "TEST_DATA",
+  "mevcut rezervasyon detayı getirilir": "TEST_DATA",
+  "checkout formunda soyad alanı doldurulabilir": "PRODUCT_BUG",
+  "ürünler fiyata göre artan sıralanır": "PRODUCT_BUG",
+  "yavaş kullanıcı giriş sonrası ürünleri görür": "FLAKY",
+  "dinamik yüklenen içerik görünür": "FLAKY",
+  "kaydet butonu aktif olduktan sonra tıklanır": "FLAKY",
+  "ödeme servisi health check": "ENVIRONMENT",
+  "stok servisi ürün adedini döner": "ENVIRONMENT"
+}

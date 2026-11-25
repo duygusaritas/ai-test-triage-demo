@@ -1,0 +1,21 @@
+{
+  "name": "ai-test-triage-demo",
+  "version": "1.0.0",
+  "description": "Başarısız Playwright testlerini LLM ile sınıflandıran demo (PRODUCT_BUG / TEST_BUG / ENVIRONMENT / FLAKY / TEST_DATA)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:history": "tsx scripts/run-history.ts",
+    "triage": "tsx triage/triage.ts",
+    "triage:baseline": "tsx triage/triage.ts --baseline",
+    "evaluate": "tsx triage/evaluate.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

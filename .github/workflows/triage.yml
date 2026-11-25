@@ -1,0 +1,60 @@
+name: Nightly regression + AI triage
+
+on:
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: 'Kaç kez koşulsun (flaky geçmişi için)'
+        default: '10'
+  schedule:
+    - cron: '17 3 * * 1-5' # hafta içi 06:17 (TR)
+
+jobs:
+  test-and-triage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+
+      - name: Testleri tekrarlı koş (kırmızılar beklenen durum)
+        run: npm run test:history -- ${{ inputs.runs || '10' }}
+
+      - name: Kural tabanlı triage (baseline)
+        run: npm run triage:baseline
+
+      - name: AI triage
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ -n "$ANTHROPIC_API_KEY" ] || [ -n "$OPENAI_API_KEY" ]; then
+            npm run triage
+          else
+            echo "API anahtarı yok, AI triage atlandı."
+          fi
+
+      - name: Değerlendirme
+        run: |
+          FILES="results/triage-baseline.json"
+          [ -f results/triage.json ] && FILES="results/triage.json $FILES"
+          npm run evaluate -- $FILES | tee results/evaluation.txt
+
+      - name: Raporu job özetine ekle
+        run: |
+          [ -f results/triage-report.md ] && cat results/triage-report.md >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"; cat results/evaluation.txt >> "$GITHUB_STEP_SUMMARY"; echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: triage-results
+          path: |
+            results/
+            playwright-report/
+            test-results/
