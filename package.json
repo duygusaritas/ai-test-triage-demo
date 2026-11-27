@@ -10,7 +10,11 @@
     "triage": "tsx triage/triage.ts",
     "triage:baseline": "tsx triage/triage.ts --baseline",
     "evaluate": "tsx triage/evaluate.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "heal": "playwright test -c playwright.healing.config.ts || true",
+    "heal:off": "HEAL=off RUN_OUTPUT=results/healing/report-off.json playwright test -c playwright.healing.config.ts || true",
+    "heal:evaluate": "tsx healing/evaluate.ts",
+    "heal:review": "streamlit run review/app.py"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",

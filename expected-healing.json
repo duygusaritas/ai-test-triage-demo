@@ -1,0 +1,11 @@
+{
+  "_aciklama": "heal = AI doğru elemente onarmalı, refuse = onarmamalı (element gerçekten kaldırıldı), none = AI'a hiç gidilmemeli",
+  "data-test değeri değişen sepete ekle butonu": "heal",
+  "id değeri kaldırılan giriş butonu": "heal",
+  "metni değişen sepete ekle butonu": "heal",
+  "sayfa yapısı değişen kaydet butonu": "heal",
+  "satırlarda aynı isimli sil butonları": "heal",
+  "tuzak: kaldırılan ödemeye geç butonu": "refuse",
+  "tuzak: kaldırılan hesabı sil butonu": "refuse",
+  "kontrol: selector hâlâ çalışıyor": "none"
+}
